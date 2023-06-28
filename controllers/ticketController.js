@@ -75,7 +75,9 @@ exports.getticket = async (req,res)=>{
         }
         else if(role.role == "internal"){
             internal = role.username
-            const tickets = await ticket.find({internal})
+            const ticketsByInternal = await ticket.find({internal})
+            const ticketByUsername = await ticket.find({username:internal})
+            const tickets = ticketByUsername.concat(ticketsByInternal)
             res.status(200).json(tickets)
         }
         else if(role.role == "user"){
